@@ -1,0 +1,8 @@
+Project/Debug/
+Project/settings/
+*.log
+*.dep
+*.ewd
+*.ewp
+*.ewt
+*.eww
