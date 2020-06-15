@@ -9,10 +9,6 @@
 #ifndef STM32F746_H__H__
 #define STM32F746_H__H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
 typedef enum {
 	/******  Cortex-M7 Processor Exceptions Numbers ****************************************************************/
 	NonMaskableInt_IRQn         = -14,
@@ -292,9 +288,5 @@ typedef enum {
 #define USB_OTG_PCGCCTL_BASE                 0xE00U
 #define USB_OTG_FIFO_BASE                    0x1000U
 #define USB_OTG_FIFO_SIZE                    0x1000U
-
-#ifdef __cplusplus
-}
-#endif  /* __cplusplus */
 
 #endif /* STM32F746_H__H__ */
