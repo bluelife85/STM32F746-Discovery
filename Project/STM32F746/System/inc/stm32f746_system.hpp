@@ -13,16 +13,13 @@
 
 class mcuSystem {
 public:
-    
-protected:
     void setPinAssignment(GPIO_TypeDef* port, uint16_t pin);
     void clearPinAssignment(GPIO_TypeDef* port, uint16_t pin);
     bool isAssigned(GPIO_TypeDef* port, uint16_t pin);
-    uint16_t getAssigned(GPIO_TypeDef* port, uint16_t pin);
-    
+    uint16_t getAssigned(GPIO_TypeDef* port);
+    uint8_t getPortPosition(GPIO_TypeDef* port);
 private:
     uint16_t pinAssignment[11];
-    uint8_t getPortPosition(GPIO_TypeDef* port);
 } extern System;
 
 

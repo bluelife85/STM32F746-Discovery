@@ -15,16 +15,16 @@ mcuSystem System;
 /**
  * private methods
  */
+
+/**
+ * public methods
+ */
+
 uint8_t mcuSystem::getPortPosition(GPIO_TypeDef* port) {
     
     return ((uint32_t)port - AHB1PERIPH_BASE) / 0x400u;
 }
 
-
-
-/**
- * protected methods
- */
 void mcuSystem::setPinAssignment(GPIO_TypeDef* port, uint16_t pin) {
     
     uint8_t index = this->getPortPosition(port);
@@ -46,7 +46,7 @@ bool mcuSystem::isAssigned(GPIO_TypeDef* port, uint16_t pin) {
     return (this->pinAssignment[index] & pin) ? true : false;
 }
 
-uint16_t mcuSystem::getAssigned(GPIO_TypeDef* port, uint16_t pin) {
+uint16_t mcuSystem::getAssigned(GPIO_TypeDef* port) {
     
     uint8_t index = this->getPortPosition(port);
     
