@@ -13,10 +13,17 @@
 
 class GPIO : mcuSystem {
 public:
+    enum pullState {
+        PULL_STATE_NO           = 0x00u,
+        PULL_STATE_PULL_UP      = 0x01u,
+        PULL_STATE_PULL_DOWN    = 0x02u
+    };
     GPIO(GPIO_TypeDef* port, mcuSystem* obj = &System);
+    void setOutput(enum pullState pull, uint8_t nbrOfPin, ...);
 private:
     uint16_t pinState;
     mcuSystem* object;
+    GPIO_TypeDef* port;
 };
 
 

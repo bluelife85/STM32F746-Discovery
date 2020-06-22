@@ -129,6 +129,7 @@ typedef enum {
 
 #include "core_cm7.h"
 #include <stdint.h>
+#include <stdarg.h>
 
 /**
   * @brief Analog to Digital Converter
