@@ -9,8 +9,30 @@
 #ifndef STM32F746_SYSTEM_HPP__H__
 #define STM32F746_SYSTEM_HPP__H__
 
+/******************************************************************************
+ * Includes
+ *****************************************************************************/
 
+#include "stm32f746.hpp"
 
+/******************************************************************************
+ * Class Declaration
+ *****************************************************************************/
 
+/* Oscillator source */
+enum class PLLSource {
+    HSE,
+    HSI
+};
+
+class Microcontroller {
+public:
+    Microcontroller(enum PLLSource type, uint32_t HSE, bool bypass);
+private:
+    uint32_t SystemClock = 16000000u;
+    
+    inline uint8_t FindPLLM(uint32_t clockSpeed);
+    uint8_t setPLLSource(enum PLLSource type, uint32_t HSE, bool bypass);
+} extern System;
 
 #endif /* STM32F746_SYSTEM_HPP__H__ */
