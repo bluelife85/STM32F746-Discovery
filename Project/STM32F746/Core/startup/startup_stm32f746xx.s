@@ -193,7 +193,7 @@ __vector_table
         SECTION .text:CODE:NOROOT:REORDER(2)
 Reset_Handler
         LDR     R0, =__iar_program_start
-        BX      R0
+        BLX      R0
 
         PUBWEAK NMI_Handler
         SECTION .text:CODE:NOROOT:REORDER(1)

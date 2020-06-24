@@ -28,6 +28,10 @@ enum class PLLSource {
 class Microcontroller {
 public:
     Microcontroller(enum PLLSource type, uint32_t HSE, bool bypass);
+    __INLINE uint32_t getCPUSpeed(void) {
+        
+        return this->SystemClock;
+    }
 private:
     uint32_t SystemClock = 16000000u;
     
