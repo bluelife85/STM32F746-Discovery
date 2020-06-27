@@ -109,7 +109,6 @@ enum class APB2List {
 
 class BusManager {
 public:
-    BusManager();
     bool ctrlAHB1(bool state, uint32_t count, ...);
     bool ctrlAHB2(bool state, uint32_t count, ...);
     bool ctrlAHB3(bool state, uint32_t count, ...);

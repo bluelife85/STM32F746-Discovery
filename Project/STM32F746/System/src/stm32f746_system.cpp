@@ -120,6 +120,8 @@ Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
     
     RCCReg->CFGR |= 0x02u;
     while((RCCReg->CFGR & 0x00000008u) != 0x00000008u) {}
+    
+    RCCReg->APB2ENR |= (1u << 14u);
 }
 
 void Microcontroller::swapFMCMapping(bool state) {

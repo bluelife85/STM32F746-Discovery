@@ -164,12 +164,6 @@ bool BusManager::checkAPB2List(int32_t bus) {
 /******************************************************************************
  * Public Methods
  *****************************************************************************/
-BusManager::BusManager() {
-    
-    /* enable SYSCFG bit */
-    RCCReg->APB2ENR |= (1u << 14u);
-}
-
 bool BusManager::ctrlAHB1(bool state, uint32_t count, ...) {
     
     bool res = true;
