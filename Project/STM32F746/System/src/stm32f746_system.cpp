@@ -103,8 +103,7 @@ Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
     RCCReg->CR |= (0x01000000u);
     while((RCCReg->CR & 0x02000000u) != 0x02000000u) {}
     
-    this->BusController.ctrlAPB1(true, 1, APB1List::PWR);
-    
+    this->ctrlAPB1(true, 1, APB1List::PWR);
     PWRReg->CR1 |= (1u << 16u);
     while((PWRReg->CSR1 & 0x00010000u) != 0x00010000u) {}
     PWRReg->CR1 |= (1u << 17u);

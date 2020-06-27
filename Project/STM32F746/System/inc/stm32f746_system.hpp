@@ -14,7 +14,7 @@
  *****************************************************************************/
 
 #include "stm32f746.hpp"
-#include "stm32f746_resourcemanager.hpp"
+#include "stm32f746_busmanager.hpp"
      
 /******************************************************************************
  * Class Declaration
@@ -26,7 +26,7 @@ enum class PLLSource {
     HSI
 };
 
-class Microcontroller : public ResourceManager {
+class Microcontroller : public BusManager {
 public:
     Microcontroller(enum PLLSource type, uint32_t HSE, bool bypass);
     __INLINE uint32_t getCPUSpeed(void) {
