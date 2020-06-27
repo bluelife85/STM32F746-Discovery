@@ -9,8 +9,20 @@
 #ifndef STM32F746_RESOURCEMANAGER_HPP__H__
 #define STM32F746_RESOURCEMANAGER_HPP__H__
 
+/******************************************************************************
+ * Includes
+ *****************************************************************************/
+#include "stm32f746.hpp"
+#include "stm32f746_busmanager.hpp"
 
-
+/******************************************************************************
+ * Class Declaration
+ *****************************************************************************/
+class ResourceManager {
+public:
+    BusManager BusController;
+private:
+};
 
 
 #endif /* STM32F746_RESOURCEMANAGER_HPP__H__ */

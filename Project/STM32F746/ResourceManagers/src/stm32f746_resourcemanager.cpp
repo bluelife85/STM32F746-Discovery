@@ -5,7 +5,6 @@
  * @brief	
  **/
 
-
-
+#include "stm32f746_resourcemanager.hpp"
 
 

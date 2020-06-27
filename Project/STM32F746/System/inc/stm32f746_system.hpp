@@ -14,7 +14,8 @@
  *****************************************************************************/
 
 #include "stm32f746.hpp"
-
+#include "stm32f746_resourcemanager.hpp"
+     
 /******************************************************************************
  * Class Declaration
  *****************************************************************************/
@@ -25,17 +26,19 @@ enum class PLLSource {
     HSI
 };
 
-class Microcontroller {
+class Microcontroller : public ResourceManager {
 public:
     Microcontroller(enum PLLSource type, uint32_t HSE, bool bypass);
     __INLINE uint32_t getCPUSpeed(void) {
         
         return this->SystemClock;
     }
+    
+    void swapFMCMapping(bool state);
 private:
     uint32_t SystemClock = 16000000u;
     
-    inline uint8_t FindPLLM(uint32_t clockSpeed);
+    inline uint8_t findPLLM(uint32_t clockSpeed);
     uint8_t setPLLSource(enum PLLSource type, uint32_t HSE, bool bypass);
 } extern System;
 
