@@ -103,7 +103,8 @@ Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
     RCCReg->CR |= (0x01000000u);
     while((RCCReg->CR & 0x02000000u) != 0x02000000u) {}
     
-    this->ctrlAPB1(true, 1, APB1List::PWR);
+    this->BusController.ctrlAPB1(true, 1, APB1List::PWR);
+    
     PWRReg->CR1 |= (1u << 16u);
     while((PWRReg->CSR1 & 0x00010000u) != 0x00010000u) {}
     PWRReg->CR1 |= (1u << 17u);
@@ -121,7 +122,7 @@ Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
     RCCReg->CFGR |= 0x02u;
     while((RCCReg->CFGR & 0x00000008u) != 0x00000008u) {}
     
-    RCCReg->APB2ENR |= (1u << 14u);
+    this->BusController.ctrlAPB2(true, 1, APB2List::SYSCFG);
 }
 
 void Microcontroller::swapFMCMapping(bool state) {
