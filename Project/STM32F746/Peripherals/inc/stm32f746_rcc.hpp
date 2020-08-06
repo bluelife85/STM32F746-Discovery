@@ -1,23 +1,32 @@
 /**
- * @file	stm32f746_busmanager.hpp
+ * @file	stm32f746_rcc.hpp
  * @author	Kyungwoo-Min
- * @date	2020. 6. 23.
+ * @date	2020. 6. 21.
  * @brief	
  **/
 
 
-#ifndef STM32F746_BUSMANAGER_HPP__H__
-#define STM32F746_BUSMANAGER_HPP__H__
+#ifndef STM32F746_RCC_HPP__H__
+#define STM32F746_RCC_HPP__H__
 
 /******************************************************************************
  * Includes
  *****************************************************************************/
+
 #include "stm32f746.hpp"
 
 /******************************************************************************
  * Class Declaration
  *****************************************************************************/
-enum class AHB1List {
+
+/* Oscillator source */
+enum class PLLSource {
+    HSE,
+    HSI
+};
+
+/* Bus */
+enum class AHB1 {
     GPIOA                       = 0u,
     GPIOB                       = 1u,
     GPIOC                       = 2u,
@@ -42,18 +51,18 @@ enum class AHB1List {
     OTGHS_ULPI                  = 30u
 };
 
-enum class AHB2List {
+enum class AHB2 {
     DCMI                        = 0u,
     RNG                         = 6u,
     OTGFS                       = 7u
 };
 
-enum class AHB3List {
+enum class AHB3 {
     FMC                         = 0u,
     QSPI                        = 1u
 };
 
-enum class APB1List {
+enum class APB1 {
     TIM2                        = 0u,
     TIM3                        = 1u,
     TIM4                        = 2u,
@@ -85,7 +94,7 @@ enum class APB1List {
     UART8                       = 31u
 };
 
-enum class APB2List {
+enum class APB2 {
     TIM1                        = 0u,
     TIM8                        = 1u,
     USART1                      = 4u,
@@ -107,19 +116,28 @@ enum class APB2List {
     LTDC                        = 26u
 };
 
-class BusManager {
+class ResetClockControl {
 public:
+    ResetClockControl();
+    ResetClockControl(enum PLLSource type, uint32_t HSE, bool bypass);
+    
+    __INLINE uint32_t getCPUSpeed(void) {
+        
+        return this->SystemClock;
+    }
+    
+    void swapFMCMapping(bool state);
+    
     bool ctrlAHB1(bool state, uint32_t count, ...);
     bool ctrlAHB2(bool state, uint32_t count, ...);
     bool ctrlAHB3(bool state, uint32_t count, ...);
     bool ctrlAPB1(bool state, uint32_t count, ...);
     bool ctrlAPB2(bool state, uint32_t count, ...);
 private:
-    bool checkAHB1List(int32_t bus);
-    bool checkAHB2List(int32_t bus);
-    bool checkAHB3List(int32_t bus);
-    bool checkAPB1List(int32_t bus);
-    bool checkAPB2List(int32_t bus);
-};
+    uint32_t SystemClock = 16000000u;
+    
+    __INLINE uint8_t findPLLM(uint32_t clockSpeed);
+    uint8_t setPLLSource(enum PLLSource type, uint32_t HSE, bool bypass);
+} extern RCC;
 
-#endif /* STM32F746_BUSMANAGER_HPP__H__ */
+#endif /* STM32F746_RCC_HPP__H__ */

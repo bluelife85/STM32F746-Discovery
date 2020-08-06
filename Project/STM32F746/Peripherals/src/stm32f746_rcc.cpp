@@ -1,5 +1,5 @@
 /**
- * @file	stm32f746_system.cpp
+ * @file	stm32f746_rcc.cpp
  * @author	Kyungwoo-Min
  * @date	2020. 6. 21.
  * @brief	
@@ -9,25 +9,25 @@
  * Includes
  *****************************************************************************/
 
-#include "stm32f746_system.hpp"
+#include "stm32f746_rcc.hpp"
 
 /******************************************************************************
  * System Object Declaration
  *****************************************************************************/
 
-Microcontroller System(PLLSource::HSE, 25000000u, true);
+ResetClockControl RCC(PLLSource::HSE, 25000000u, true);
 
 
 /******************************************************************************
  * Private Methods
  *****************************************************************************/
 
-inline uint8_t Microcontroller::findPLLM(uint32_t clockSpeed) {
+__INLINE uint8_t ResetClockControl::findPLLM(uint32_t clockSpeed) {
     
     return (clockSpeed / 1000000u);
 }
 
-uint8_t Microcontroller::setPLLSource(enum PLLSource type, uint32_t HSE,
+uint8_t ResetClockControl::setPLLSource(enum PLLSource type, uint32_t HSE,
                                       bool bypass) {
     
     uint8_t PLLM;
@@ -60,8 +60,10 @@ uint8_t Microcontroller::setPLLSource(enum PLLSource type, uint32_t HSE,
 /******************************************************************************
  * Public Methods
  *****************************************************************************/
+ResetClockControl::ResetClockControl() {
+}
 
-Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
+ResetClockControl::ResetClockControl(enum PLLSource type, uint32_t HSE,
                                  bool bypass) {
     
     uint8_t PLLM;
@@ -103,7 +105,7 @@ Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
     RCCReg->CR |= (0x01000000u);
     while((RCCReg->CR & 0x02000000u) != 0x02000000u) {}
     
-    this->BusController.ctrlAPB1(true, 1, APB1List::PWR);
+    this->ctrlAPB1(true, 1, APB1::PWR);
     
     PWRReg->CR1 |= (1u << 16u);
     while((PWRReg->CSR1 & 0x00010000u) != 0x00010000u) {}
@@ -122,13 +124,132 @@ Microcontroller::Microcontroller(enum PLLSource type, uint32_t HSE,
     RCCReg->CFGR |= 0x02u;
     while((RCCReg->CFGR & 0x00000008u) != 0x00000008u) {}
     
-    this->BusController.ctrlAPB2(true, 1, APB2List::SYSCFG);
+    this->ctrlAPB2(true, 1, APB2::SYSCFG);
 }
 
-void Microcontroller::swapFMCMapping(bool state) {
+void ResetClockControl::swapFMCMapping(bool state) {
     
     if(state) 
         SYSCFGReg->MEMRMP |= (1u << 10u);
     else
         SYSCFGReg->MEMRMP &= ~(1u << 10u);
+}
+
+bool ResetClockControl::ctrlAHB1(bool state, uint32_t count, ...) {
+    
+    bool res = true;
+    uint32_t i;
+    va_list ap;
+    int list;
+    
+    va_start(ap, count);
+    
+    for(i = 0u;i < count; i++){
+        
+        list = va_arg(ap, int);
+        
+        if(state) {
+            
+            if((RCCReg->AHB1ENR & (1u << list)) == 0u)
+                RCCReg->AHB1ENR |= (1u << list);
+        }
+        else
+            RCCReg->AHB1ENR &= ~(1u << list);
+    }
+    
+    return res;
+}
+
+bool ResetClockControl::ctrlAHB2(bool state, uint32_t count, ...) {
+    
+    bool res = true;
+    uint32_t i;
+    va_list ap;
+    int list;
+    
+    va_start(ap, count);
+    
+    for(i = 0u;i < count; i++){
+        
+        list = va_arg(ap, int);
+        
+        if(state) {
+            
+            if((RCCReg->AHB2ENR & (1u << list)) == 0u)
+                RCCReg->AHB2ENR |= (1u << list);
+        }
+        else
+            RCCReg->AHB2ENR &= ~(1u << list);
+    }
+    
+    return res;
+}
+
+bool ResetClockControl::ctrlAHB3(bool state, uint32_t count, ...) {
+    
+    bool res = true;
+    uint32_t i;
+    va_list ap;
+    int list;
+    
+    va_start(ap, count);
+    
+    for(i = 0u;i < count; i++){
+        
+        list = va_arg(ap, int);
+        
+        if(state)
+            if((RCCReg->AHB3ENR & (1u << list)) == 0u)
+                RCCReg->AHB3ENR |= (1u << list);
+        else
+            RCCReg->AHB3ENR &= ~(1u << list);
+    }
+    
+    return res;
+}
+
+bool ResetClockControl::ctrlAPB1(bool state, uint32_t count, ...) {
+    
+    bool res = true;
+    uint32_t i;
+    va_list ap;
+    int list;
+    
+    va_start(ap, count);
+    
+    for(i = 0u;i < count; i++){
+        
+        list = va_arg(ap, int);
+        
+        if(state)
+            if((RCCReg->APB1ENR & (1u << list)) == 0u)
+                RCCReg->APB1ENR |= (1u << list);
+        else
+            RCCReg->APB1ENR &= ~(1u << list);
+    }
+    
+    return res;
+}
+
+bool ResetClockControl::ctrlAPB2(bool state, uint32_t count, ...) {
+    
+    bool res = true;
+    uint32_t i;
+    va_list ap;
+    int list;
+    
+    va_start(ap, count);
+    
+    for(i = 0u;i < count; i++){
+        
+        list = va_arg(ap, int);
+        
+        if(state)
+            if((RCCReg->APB2ENR & (1u << list)) == 0u)
+                RCCReg->APB2ENR |= (1u << list);
+        else
+            RCCReg->APB2ENR &= ~(1u << list);
+    }
+    
+    return res;
 }

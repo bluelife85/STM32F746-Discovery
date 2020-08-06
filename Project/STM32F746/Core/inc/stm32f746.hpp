@@ -1330,4 +1330,6 @@ typedef struct
 #define USB_OTG_FSReg       ((USB_OTG_GlobalTypeDef *) USB_OTG_FS_PERIPH_BASE)
 #define USB_OTG_HSReg       ((USB_OTG_GlobalTypeDef *) USB_OTG_HS_PERIPH_BASE)
 
+typedef void (*InterruptCallbacks)(void);
+
 #endif /* STM32F746_H__H__ */
