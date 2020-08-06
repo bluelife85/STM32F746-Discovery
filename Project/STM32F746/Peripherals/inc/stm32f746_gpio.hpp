@@ -99,6 +99,7 @@ public:
     void disableInterrupt(uint32_t pinNumber);
     
     void control(uint32_t pin, bool state);
+    bool read(uint32_t pin);
 private:
     GPIO_TypeDef* port;
     enum AHB1 bus;

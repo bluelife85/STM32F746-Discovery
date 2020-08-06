@@ -159,6 +159,11 @@ void GPIO::control(uint32_t pin, bool state) {
     }
 }
 
+bool GPIO::read(uint32_t pin) {
+    
+    return ((this->port->IDR & pin) == pin) ? true : false;
+}
+
 /******************************************************************************
  * Interrupt Vectors
  *****************************************************************************/
